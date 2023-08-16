@@ -19,12 +19,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Роуты авторизации -->
+// Роуты авторизации -->
 Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
 });
 // <--
-Route::prefix('product')->controller(ProductController::class)->group(function () {
+
+// Роуты продуктов -->
+Route::middleware('auth:sanctum')->prefix('product')->controller(ProductController::class)->group(function () {
     Route::post('index', 'index');
 });
+// <--
