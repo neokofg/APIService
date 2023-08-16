@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,3 +25,6 @@ Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
 });
 // <--
+Route::prefix('product')->controller(ProductController::class)->group(function () {
+    Route::post('index', 'index');
+});
