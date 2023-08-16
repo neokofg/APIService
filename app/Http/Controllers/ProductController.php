@@ -15,6 +15,18 @@ class ProductController extends Controller
     }
     public function index(ProductIndexRequest $request)
     {
-        return response()->json(["message" => 'Успешно!', 'products' => $this->productService->index($request), 'status' => true], ResponseAlias::HTTP_OK);
+        $products = $this->productService->index($request);
+        if(count($products) > 0){
+            return response()->json([
+                "message" => 'Успешно!',
+                'products' => $products,
+                'status' => true
+            ], ResponseAlias::HTTP_OK);
+        } else {
+            return response()->json([
+                "message" => 'Не удалось найти продукты!',
+                'status' => false
+            ], ResponseAlias::HTTP_BAD_REQUEST);
+        }
     }
 }
