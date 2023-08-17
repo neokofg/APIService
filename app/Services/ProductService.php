@@ -50,7 +50,7 @@ class ProductService {
     {
         $user = Auth::user();
         $product = Product::find($request['id']);
-        if($product->user->id == $user->id) {
+        if($product->user && $product->user->id == $user->id) {
             $product->update($request);
             return $product->fresh(['user']);
         } else {
