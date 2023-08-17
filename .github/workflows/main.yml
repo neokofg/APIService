@@ -27,3 +27,4 @@ jobs:
       - run: composer install -n --prefer-dist
       - run: php artisan key:generate
       - run: php artisan test || true
+      - run: php artisan scribe:generate

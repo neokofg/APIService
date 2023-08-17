@@ -54,4 +54,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Product::class, 'users_products_rent');
     }
+
+    public function buyHistory(): HasMany
+    {
+        return $this->hasMany(UserBuyHistory::class, 'user_id', 'id');
+    }
 }

@@ -14,7 +14,6 @@ use App\Http\Controllers\ProductController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::middleware('auth:sanctum')->get('user', [AuthController::class, 'user']);
 
 // Роуты авторизации -->

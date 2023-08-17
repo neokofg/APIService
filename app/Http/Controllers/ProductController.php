@@ -9,8 +9,11 @@ use App\Http\Requests\ProductRentRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Response;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
+#[Group('Products')]
 class ProductController extends Controller
 {
     public function __construct(private ProductService $productService)
@@ -18,10 +21,11 @@ class ProductController extends Controller
 
     }
     /**
+     * Получение всех продуктов
      * @param ProductIndexRequest $request
-     *  Получение всех продуктов
      * @return JsonResponse
      */
+    #[Response(['message' => 'Успешно!','products' => 'Array of Products', 'status' => true])]
     public function index(ProductIndexRequest $request): JsonResponse
     {
         $products = $this->productService->index($request);
@@ -38,7 +42,12 @@ class ProductController extends Controller
             ], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
-
+    /**
+     * Получение одного продукта
+     * @param ProductFindRequest $request
+     * @return JsonResponse
+     */
+    #[Response(['message' => 'Успешно!','product' => 'Product', 'status' => true])]
     public function find(ProductFindRequest $request): JsonResponse
     {
         $product = $this->productService->find($request);
@@ -56,10 +65,12 @@ class ProductController extends Controller
         }
     }
     /**
+     * Покупка продукта
      * @param ProductBuyRequest $request
-     *  Покупка продукта
+     * @header Authorization Bearer
      * @return JsonResponse
      */
+    #[Response(['message' => 'Успешно!','product' => 'Product', 'status' => true])]
     public function buy(ProductBuyRequest $request): JsonResponse
     {
         $product = $this->productService->buy($request);
@@ -77,10 +88,12 @@ class ProductController extends Controller
         }
     }
     /**
+     * Обновление продукта
      * @param ProductUpdateRequest $request
-     *  Обновление продукта
+     * @header Authorization Bearer
      * @return JsonResponse
      */
+    #[Response(['message' => 'Успешно!','product' => 'Product', 'status' => true])]
     public function update(ProductUpdateRequest $request): JsonResponse
     {
         $product = $this->productService->update($request->validated());
@@ -98,10 +111,12 @@ class ProductController extends Controller
         }
     }
     /**
+     * Аренда продукта
      * @param ProductRentRequest $request
-     *  Аренда продукта
+     * @header Authorization Bearer
      * @return JsonResponse
      */
+    #[Response(['message' => 'Успешно!','product' => 'Product', 'status' => true])]
     public function rent(ProductRentRequest $request): JsonResponse
     {
         $product = $this->productService->rent($request);
