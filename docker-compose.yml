@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+    php:
+        depends_on:
+            -  mysql
+        build: .
+        volumes:
+            - ./php/php.ini:/usr/local/etc/php/php.ini
+            - .:/workspace
+    nginx:
+        depends_on:
+            -  php
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx:/etc/nginx/conf.d
+            - .:/workspace/
+    mysql:
+        image: mysql:latest
+        volumes:
+            - .:/workspace/db
+        environment:
+            - MYSQL_USER=mysql
+            - MYSQL_PASSWORD=password
+            - MYSQL_DATABASE=main
+            - MYSQL_ROOT_PASSWORD=password
+        ports:
+            - "3306:3306"
+        restart: on-failure
