@@ -1,0 +1,6 @@
+input UpdateProduct {
+    id: String! @rules(apply: ["exists:products,id"])
+    name: String @rules(apply: ["max:32"])
+    price: Int @rules(apply: ["integer","max:100000"])
+    is_rentable: Boolean
+}

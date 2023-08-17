@@ -1,0 +1,17 @@
+type User {
+    id: ID!
+
+    name: String!
+
+    email: String!
+
+    created_at: DateTime!
+
+    updated_at: DateTime!
+
+    products: Product @hasMany
+
+    rentedProducts: [Product!] @belongsToMany
+
+    buyHistory: [UserBuyHistory!] @hasMany
+}

@@ -1,0 +1,4 @@
+input RentProduct {
+    id: String! @rules(apply: ["exists:products,id"])
+    hours: Int! @rules(apply: ["in:4,8,12,24"])
+}

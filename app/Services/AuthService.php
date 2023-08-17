@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 class AuthService {
     public function login($request): mixed
     {
-        if(Auth::attempt($request->all())){
+        if(Auth::guard('web')->attempt($request)){
             $user = Auth::user();
             $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;
             return $token;
@@ -22,9 +22,9 @@ class AuthService {
     public function register($request): mixed
     {
         $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
+        $user->name = $request['name'];
+        $user->email = $request['email'];
+        $user->password = Hash::make($request['password']);
         $user->save();
         if($user) {
             $token = $user->createToken('LaravelSanctumAuth')->plainTextToken;

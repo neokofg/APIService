@@ -1,0 +1,5 @@
+input RegisterInput {
+    name: String! @rules(apply: ["max:32"])
+    email: String! @rules(apply: ["email","max:32","unique:users,email"])
+    password: String! @rules(apply: ["max:16"])
+}

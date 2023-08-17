@@ -1,0 +1,3 @@
+input BuyProduct {
+    id: String! @rules(apply: ["exists:products,id"])
+}

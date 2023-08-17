@@ -1,0 +1,9 @@
+type UserProductRent {
+    id: ID!
+    created_at: DateTime!
+    updated_at: DateTime!
+    rent_end_date: DateTime!
+    rent_hours: Int!
+    user: User! @belongsTo
+    product: Product! @belongsTo
+}

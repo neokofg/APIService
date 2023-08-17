@@ -28,7 +28,7 @@ class ProductService {
     public function buy($request): mixed
     {
         $user = Auth::user();
-        $product = Product::find($request->id);
+        $product = Product::find($request['id']);
         if($product->getIsBuyedAttribute()){
             return null;
         } else {
@@ -64,10 +64,10 @@ class ProductService {
         // Получаем продукт по id из запроса
         $product = Product::find($request['id']);
         // Получаем количество часов аренды
-        $hours = $request->hours;
+        $hours = $request['hours'];
         // Валидация
         if(!$product->user OR !$product->is_rentable OR $product->user->id == $user->id){
-            // Продукт не найден, не доступен для аренды, или пользователь является владельцем
+            // Продукт не найден, не доступен для аренды    , или пользователь является владельцем
             return null;
         }
         // Проверка наличия активных аренд
@@ -86,15 +86,17 @@ class ProductService {
                     $rent->rent_hours = $totalHours;
                     $rent->rent_end_date = Carbon::parse($rent->rent_end_date)->addHours($hours);
                     $rent->save();
+                    return $product->fresh(['user','rentedUsers']);
                 }
             }
-        } else {
-            // Если аренд еще нет - создаем новую
-            $product->rentedUsers()->attach($user->id, [
-                'rent_hours' => $hours,
-                'rent_end_date' => now()->addHours($hours)
-            ]);
         }
+        // Если аренд еще нет - создаем новую
+        $product->rentedUsers()->attach($user->id, [
+            'rent_hours' => $hours,
+            'rent_end_date' => now()->addHours($hours),
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
         // Возвращаем продукт
         return $product->fresh(['user','rentedUsers']);
     }

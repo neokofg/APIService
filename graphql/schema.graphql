@@ -1,0 +1,27 @@
+#import model/*.graphql
+#import input/*.graphql
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+
+    me: User @guard @auth
+
+    login(input: LoginInput! @spread): String
+
+    register(input: RegisterInput! @spread): String
+
+    indexProducts: [Product!] @paginate
+
+    findProduct(id: String! @eq): Product @find
+}
+
+type Mutation {
+
+    buyProduct(input: BuyProduct! @spread): Product @guard
+
+    updateProduct(input: UpdateProduct! @spread): Product @guard
+
+    rentProduct(input: RentProduct! @spread): Product @guard
+}

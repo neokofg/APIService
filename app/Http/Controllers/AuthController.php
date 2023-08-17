@@ -25,7 +25,7 @@ class AuthController extends Controller
     #[Response(['message' => 'Успешно!', 'token' => "1|CPeoZaG6dPcduqtfEdZ1DFHLyMuyelQKCQMEJHbH", 'status' => true])]
     public function login(LoginRequest $request): JsonResponse
     {
-        $token = $this->authService->login($request);
+        $token = $this->authService->login($request->all());
         if($token){
             return response()->json([
                 'message' => 'Успешно!',
@@ -69,7 +69,7 @@ class AuthController extends Controller
     #[Response(['message' => 'Успешно!', 'token' => "1|CPeoZaG6dPcduqtfEdZ1DFHLyMuyelQKCQMEJHbH", 'status' => true])]
     public function register(RegisterRequest $request): JsonResponse
     {
-        $token = $this->authService->register($request);
+        $token = $this->authService->register($request->all());
         if($token){
             return response()->json([
                 'message' => 'Успешно!',

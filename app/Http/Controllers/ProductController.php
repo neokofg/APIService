@@ -73,7 +73,7 @@ class ProductController extends Controller
     #[Response(['message' => 'Успешно!','product' => 'Product', 'status' => true])]
     public function buy(ProductBuyRequest $request): JsonResponse
     {
-        $product = $this->productService->buy($request);
+        $product = $this->productService->buy($request->all());
         if ($product) {
             return response()->json([
                 "message" => 'Успешно!',
@@ -119,7 +119,7 @@ class ProductController extends Controller
     #[Response(['message' => 'Успешно!','product' => 'Product', 'status' => true])]
     public function rent(ProductRentRequest $request): JsonResponse
     {
-        $product = $this->productService->rent($request);
+        $product = $this->productService->rent($request->all());
         if ($product) {
             return response()->json([
                 "message" => 'Успешно!',
