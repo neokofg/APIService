@@ -16,6 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name');
             $table->integer('price');
+            $table->boolean('is_rentable')->default(false);
+            $table->foreignUuid('user_id')->nullable()->constrained()->nullOnDelete();
         });
     }
 

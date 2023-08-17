@@ -15,19 +15,24 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::middleware('auth:sanctum')->get('user', [AuthController::class, 'user']);
 
 // Роуты авторизации -->
 Route::prefix('auth')->controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
     Route::post('register', 'register');
+    Route::get('unauthorized', 'unauthorized')->name('unauthorized');
 });
 // <--
 
 // Роуты продуктов -->
-Route::middleware('auth:sanctum')->prefix('product')->controller(ProductController::class)->group(function () {
-    Route::post('index', 'index');
+Route::prefix('product')->controller(ProductController::class)->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('buy', 'buy');
+        Route::patch('update', 'update');
+        Route::post('rent', 'rent');
+    });
+    Route::get('index', 'index');
+    Route::get('find', 'find');
 });
 // <--

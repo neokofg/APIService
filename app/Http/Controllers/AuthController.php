@@ -19,9 +19,33 @@ class AuthController extends Controller
     {
         $token = $this->authService->login($request);
         if($token){
-            return response()->json(['message' => 'Успешно!', 'token' => $token, 'status' => true], ResponseAlias::HTTP_OK);
+            return response()->json([
+                'message' => 'Успешно!',
+                'token' => $token,
+                'status' => true
+            ], ResponseAlias::HTTP_OK);
         } else {
-            return response()->json(['message' => 'Неверный логин или пароль!', 'status' => false], ResponseAlias::HTTP_UNAUTHORIZED);
+            return response()->json([
+                'message' => 'Неверный логин или пароль!',
+                'status' => false
+            ], ResponseAlias::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function user(): JsonResponse
+    {
+        $user = Auth::user()->load(['products', 'rentedProducts']);
+        if($user) {
+            return response()->json([
+                'message' => 'Успешно!',
+                'user' => $user,
+                'status' => true
+            ], ResponseAlias::HTTP_OK);
+        } else {
+            return response()->json([
+                'message' => 'Произошла непредвиденная ошибка!',
+                'status' => false
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
 
@@ -29,9 +53,31 @@ class AuthController extends Controller
     {
         $token = $this->authService->register($request);
         if($token){
-            return response()->json(['message' => 'Успешно!', 'token' => $token, 'status' => true], ResponseAlias::HTTP_OK);
+            return response()->json([
+                'message' => 'Успешно!',
+                'token' => $token,
+                'status' => true
+            ], ResponseAlias::HTTP_OK);
         } else {
-            return response()->json(['message' => 'Не удалось зарегестрировать пользователя!', 'status' => false], ResponseAlias::HTTP_UNAUTHORIZED);
+            return response()->json([
+                'message' => 'Не удалось зарегестрировать пользователя!',
+                'status' => false
+            ], ResponseAlias::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    public function unauthorized(Request $request): JsonResponse
+    {
+        if(!Auth::check()) {
+            return response()->json([
+                'message' => 'Вы не авторизированы!',
+                'status' => false
+            ], ResponseAlias::HTTP_FORBIDDEN);
+        } else {
+            return response()->json([
+                'message' => 'Произошла непредвиденная ошибка!',
+                'status' => false
+            ], ResponseAlias::HTTP_BAD_REQUEST);
         }
     }
 }

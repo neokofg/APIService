@@ -2,6 +2,9 @@
 
 namespace App\Console;
 
+use App\Models\Product;
+use App\Models\UserProductRent;
+use Carbon\Carbon;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,7 +15,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->call(function () {
+            $rents = UserProductRent::where('rent_end_date', '<' ,Carbon::now()->format('Y-m-d H:i:s'))->get();
+            foreach($rents as $rent) {
+                $rent->delete();
+            }
+        })->everyMinute()->name('Rent checker')->withoutOverlapping();
     }
 
     /**

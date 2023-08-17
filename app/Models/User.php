@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -44,8 +45,13 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function products(): BelongsToMany
+    public function products(): HasMany
     {
-        return $this->belongsToMany(Product::class, 'users_products', 'user_id', 'product_id');
+        return $this->hasMany(Product::class, 'user_id', 'id');
+    }
+
+    public function rentedProducts(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'users_products_rent');
     }
 }

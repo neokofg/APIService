@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users_products', function (Blueprint $table) {
-            $table->id();
+        Schema::create('users_buy_history', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->timestamps();
             $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->foreignUuid('product_id')->constrained()->cascadeOnDelete();
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users_products');
+        Schema::dropIfExists('users_buy_history');
     }
 };
